@@ -9,9 +9,11 @@ require (
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/imdario/mergo v0.3.5
+	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.0.0
 	github.com/onsi/gomega v1.17.0
 	github.com/prometheus/client_golang v1.12.0
+	github.com/prometheus/common v0.32.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
 	go.uber.org/automaxprocs v1.4.0
@@ -29,7 +31,7 @@ require (
 	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b
 	sigs.k8s.io/yaml v1.3.0
 	stathat.com/c/consistent v1.0.0
-	volcano.sh/apis v1.5.0-beta.0.0.20220427084719-22d3dd007a8f
+	volcano.sh/apis v1.6.0-alpha.0.0.20220712043845-8d8aa5aecbd2
 )
 
 require (
@@ -72,7 +74,6 @@ require (
 	github.com/opencontainers/selinux v1.8.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
-	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.0 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.0 // indirect
@@ -138,5 +139,5 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.23.0
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.23.0
 	k8s.io/sample-controller => k8s.io/sample-controller v0.23.0
-	volcano.sh/apis v1.5.0-beta.0.0.20220427084719-22d3dd007a8f => github.com/zbbkeepgoing/volcano-apis v1.6.0-alpha.0.0.20220713030825-5dc72beb5d6f
+	volcano.sh/apis v1.6.0-alpha.0.0.20220712043845-8d8aa5aecbd2 => github.com/zbbkeepgoing/volcano-apis v1.6.0-alpha.0.0.20220713030825-5dc72beb5d6f
 )
