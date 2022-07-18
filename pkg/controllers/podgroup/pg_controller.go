@@ -25,7 +25,6 @@ import (
 	"k8s.io/client-go/util/workqueue"
 	"k8s.io/klog"
 
-	scheduling "volcano.sh/apis/pkg/apis/scheduling/v1beta1"
 	vcclientset "volcano.sh/apis/pkg/client/clientset/versioned"
 	informerfactory "volcano.sh/apis/pkg/client/informers/externalversions"
 	schedulinginformer "volcano.sh/apis/pkg/client/informers/externalversions/scheduling/v1beta1"
@@ -121,11 +120,6 @@ func (pg *pgcontroller) processNextReq() bool {
 
 	if !contains(pg.schedulerNames, pod.Spec.SchedulerName) {
 		klog.V(5).Infof("pod %v/%v field SchedulerName is not matched", pod.Namespace, pod.Name)
-		return true
-	}
-
-	if pod.Annotations != nil && pod.Annotations[scheduling.KubeGroupNameAnnotationKey] != "" {
-		klog.V(5).Infof("pod %v/%v has created podgroup", pod.Namespace, pod.Name)
 		return true
 	}
 

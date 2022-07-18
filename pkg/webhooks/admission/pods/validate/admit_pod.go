@@ -21,6 +21,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"volcano.sh/apis/pkg/apis/helpers"
+	"volcano.sh/apis/pkg/apis/scheduling"
 
 	admissionv1 "k8s.io/api/admission/v1"
 	whv1 "k8s.io/api/admissionregistration/v1"
@@ -30,7 +32,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/klog"
 
-	"volcano.sh/apis/pkg/apis/helpers"
 	vcv1beta1 "volcano.sh/apis/pkg/apis/scheduling/v1beta1"
 	"volcano.sh/volcano/pkg/webhooks/router"
 	"volcano.sh/volcano/pkg/webhooks/schema"
@@ -112,7 +113,7 @@ func validatePod(pod *v1.Pod, reviewResponse *admissionv1.AdmissionResponse) str
 		pgName = pod.Annotations[vcv1beta1.KubeGroupNameAnnotationKey]
 	}
 	if pgName != "" {
-		if err := checkPG(pod, pgName, true); err != nil {
+		if err := checkPG(pod, pgName, isVcJob(pod)); err != nil {
 			msg = err.Error()
 			reviewResponse.Allowed = false
 		}
@@ -133,6 +134,15 @@ func validatePod(pod *v1.Pod, reviewResponse *admissionv1.AdmissionResponse) str
 	}
 
 	return msg
+}
+
+func isVcJob(pod *v1.Pod) bool {
+	for _, ownerReference := range pod.OwnerReferences {
+		if *ownerReference.Controller == true && strings.HasPrefix(ownerReference.APIVersion, scheduling.GroupName) && ownerReference.Kind == "Job" {
+			return true
+		}
+	}
+	return false
 }
 
 func checkPG(pod *v1.Pod, pgName string, isVCJob bool) error {
