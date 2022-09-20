@@ -22,22 +22,24 @@ import (
 	"volcano.sh/apis/pkg/apis/bus/v1alpha1"
 )
 
-//Request struct.
+// Request struct.
 type Request struct {
 	Namespace string
 	JobName   string
 	TaskName  string
 	QueueName string
+	VQAName   string
 
-	Event      v1alpha1.Event
-	ExitCode   int32
-	Action     v1alpha1.Action
-	JobVersion int32
+	VQARetryTime int
+	Event        v1alpha1.Event
+	ExitCode     int32
+	Action       v1alpha1.Action
+	JobVersion   int32
 }
 
 // String function returns the request in string format.
 func (r Request) String() string {
 	return fmt.Sprintf(
-		"Queue: %s, Job: %s/%s, Task:%s, Event:%s, ExitCode:%d, Action:%s, JobVersion: %d",
-		r.QueueName, r.Namespace, r.JobName, r.TaskName, r.Event, r.ExitCode, r.Action, r.JobVersion)
+		"VerticalQueueAutoScaler: %s, Queue: %s, Job: %s/%s, Task:%s, VQARetryTime:%d, Event:%s, ExitCode:%d, Action:%s, JobVersion: %d",
+		r.VQAName, r.QueueName, r.Namespace, r.JobName, r.TaskName, r.VQARetryTime, r.Event, r.ExitCode, r.Action, r.JobVersion)
 }

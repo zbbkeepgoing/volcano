@@ -15,6 +15,7 @@ require (
 	github.com/onsi/gomega v1.17.0
 	github.com/prometheus/client_golang v1.12.0
 	github.com/prometheus/common v0.32.1
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
 	go.uber.org/automaxprocs v1.4.0
@@ -28,11 +29,12 @@ require (
 	k8s.io/code-generator v0.23.0
 	k8s.io/component-base v0.23.0
 	k8s.io/klog v1.0.0
+	k8s.io/klog/v2 v2.30.0
 	k8s.io/kubernetes v1.23.0
 	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b
 	sigs.k8s.io/yaml v1.3.0
 	stathat.com/c/consistent v1.0.0
-	volcano.sh/apis v1.6.0-alpha.0.0.20220712043845-8d8aa5aecbd2
+	volcano.sh/apis v1.6.0
 )
 
 require (
@@ -99,7 +101,6 @@ require (
 	k8s.io/component-helpers v0.23.0 // indirect
 	k8s.io/csi-translation-lib v0.23.0 // indirect
 	k8s.io/gengo v0.0.0-20210813121822-485abfe95c7c // indirect
-	k8s.io/klog/v2 v2.30.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65 // indirect
 	k8s.io/kube-scheduler v0.0.0 // indirect
 	k8s.io/mount-utils v0.23.0 // indirect
@@ -139,4 +140,5 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.23.0
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.23.0
 	k8s.io/sample-controller => k8s.io/sample-controller v0.23.0
+	volcano.sh/apis v1.6.0 => github.com/zbbkeepgoing/volcano-apis v1.6.0-alpha.0.0.20220920065650-c1bbe67ee222
 )
