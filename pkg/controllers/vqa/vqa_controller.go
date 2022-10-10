@@ -27,6 +27,7 @@ import (
 	schedulinglister "volcano.sh/apis/pkg/client/listers/scheduling/v1beta1"
 	"volcano.sh/volcano/pkg/controllers/apis"
 	"volcano.sh/volcano/pkg/controllers/framework"
+	"volcano.sh/volcano/pkg/util"
 )
 
 const (
@@ -285,15 +286,18 @@ func (v *vqacontroller) reconcileTidal(req *apis.Request, vqa *autoscalingv1alph
 			if err == nil {
 				vqa.Status.LastScaleTime = &nowV1Time
 				vqa.Status.LastScaleSuccessTime = &nowV1Time
-				klog.V(0).InfoS("scale queue success", "vqa", vqa.GetName(), "queue", vqa.Spec.Queue, "originalCapacity", oldqueue.Spec.Capability,
-					"originalGuarantee", oldqueue.Spec.Guarantee, "originalWeight", oldqueue.Spec.Weight,
-					"currentCapacity", queue.Spec.Capability, "currentGuarantee", queue.Spec.Guarantee, "currentWeight", queue.Spec.Weight)
-				v.recorder.Eventf(vqa, v1.EventTypeNormal, "ScaleQueueSuccess", "originalCapacity: %+v; originalGuarantee: %+v; "+
-					"originalWeight: %+v; currentCapacity: %+v; currentGuarantee: %+v; currentWeight: %+v;", oldqueue.Spec.Capability, oldqueue.Spec.Guarantee, oldqueue.Spec.Weight,
-					queue.Spec.Capability, queue.Spec.Guarantee, queue.Spec.Weight)
-				v.recorder.Eventf(queue, v1.EventTypeNormal, "QueueScaleSuccess", "VQA: %+v; originalCapacity: %+v; originalGuarantee: %+v; "+
-					"originalWeight: %+v; currentCapacity: %+v; currentGuarantee: %+v; currentWeight: %+v;", vqa.GetName(), oldqueue.Spec.Capability, oldqueue.Spec.Guarantee,
-					oldqueue.Spec.Weight, queue.Spec.Capability, queue.Spec.Guarantee, queue.Spec.Weight)
+				klog.V(0).InfoS("scale queue success", "vqa", vqa.GetName(), "queue", vqa.Spec.Queue,
+					"originalCapacity", util.V1ResourceListToString(oldqueue.Spec.Capability), "originalGuarantee", util.V1ResourceListToString(oldqueue.Spec.Guarantee.Resource),
+					"originalWeight", oldqueue.Spec.Weight, "currentCapacity", util.V1ResourceListToString(queue.Spec.Capability),
+					"currentGuarantee", util.V1ResourceListToString(queue.Spec.Guarantee.Resource), "currentWeight", queue.Spec.Weight)
+				v.recorder.Eventf(vqa, v1.EventTypeNormal, "ScaleQueueSuccess", "originalCapacity: %s; originalGuarantee: %s; "+
+					"originalWeight: %+v; currentCapacity: %s; currentGuarantee: %s; currentWeight: %+v;", util.V1ResourceListToString(oldqueue.Spec.Capability),
+					util.V1ResourceListToString(oldqueue.Spec.Guarantee.Resource), oldqueue.Spec.Weight, util.V1ResourceListToString(queue.Spec.Capability),
+					util.V1ResourceListToString(queue.Spec.Guarantee.Resource), queue.Spec.Weight)
+				v.recorder.Eventf(queue, v1.EventTypeNormal, "QueueScaleSuccess", "VQA: %s; originalCapacity: %s; originalGuarantee: %s; "+
+					"originalWeight: %+v; currentCapacity: %s; currentGuarantee: %s; currentWeight: %+v;", vqa.GetName(), util.V1ResourceListToString(oldqueue.Spec.Capability),
+					util.V1ResourceListToString(oldqueue.Spec.Guarantee.Resource), oldqueue.Spec.Weight, util.V1ResourceListToString(queue.Spec.Capability),
+					util.V1ResourceListToString(queue.Spec.Guarantee.Resource), queue.Spec.Weight)
 				return nil
 			}
 			return err
